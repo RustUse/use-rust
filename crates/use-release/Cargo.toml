@@ -1,0 +1,20 @@
+[package]
+name = "use-release"
+description = "Composable release-readiness primitives for RustUse."
+authors.workspace = true
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+repository.workspace = true
+homepage.workspace = true
+rust-version.workspace = true
+readme = "README.md"
+documentation = "https://docs.rs/use-release"
+keywords = ["rustuse", "release", "publish", "checks"]
+categories = ["development-tools", "filesystem"]
+
+[dependencies]
+serde.workspace = true
+use-cargo = { version = "0.1.0", path = "../use-cargo" }
+use-crate = { version = "0.1.0", path = "../use-crate" }
+use-version = { version = "0.1.0", path = "../use-version" }

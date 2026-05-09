@@ -1,0 +1,18 @@
+[package]
+name = "use-crate"
+description = "Composable crate identity and metadata primitives for RustUse."
+authors.workspace = true
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+repository.workspace = true
+homepage.workspace = true
+rust-version.workspace = true
+readme = "README.md"
+documentation = "https://docs.rs/use-crate"
+keywords = ["rustuse", "crate", "metadata", "naming"]
+categories = ["development-tools", "data-structures"]
+
+[dependencies]
+serde.workspace = true
+use-cargo = { version = "0.1.0", path = "../use-cargo" }

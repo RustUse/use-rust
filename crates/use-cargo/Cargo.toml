@@ -1,0 +1,20 @@
+[package]
+name = "use-cargo"
+description = "Composable Cargo project and workspace primitives for RustUse."
+authors.workspace = true
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+repository.workspace = true
+homepage.workspace = true
+rust-version.workspace = true
+readme = "README.md"
+documentation = "https://docs.rs/use-cargo"
+keywords = ["rustuse", "cargo", "workspace", "manifest"]
+categories = ["development-tools", "config"]
+
+[dependencies]
+camino.workspace = true
+cargo_metadata.workspace = true
+serde.workspace = true
+toml_edit.workspace = true

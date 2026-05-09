@@ -1,0 +1,18 @@
+[package]
+name = "use-version"
+description = "Composable version and semver primitives for RustUse."
+authors.workspace = true
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+repository.workspace = true
+homepage.workspace = true
+rust-version.workspace = true
+readme = "README.md"
+documentation = "https://docs.rs/use-version"
+keywords = ["rustuse", "semver", "versioning", "release"]
+categories = ["development-tools", "parser-implementations"]
+
+[dependencies]
+semver.workspace = true
+serde.workspace = true

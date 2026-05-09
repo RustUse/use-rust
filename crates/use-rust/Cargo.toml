@@ -1,0 +1,20 @@
+[package]
+name = "use-rust"
+description = "Composable Rust ecosystem primitives for RustUse."
+authors.workspace = true
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+repository.workspace = true
+homepage.workspace = true
+rust-version.workspace = true
+readme = "README.md"
+documentation = "https://docs.rs/use-rust"
+keywords = ["rustuse", "rust", "cargo", "release"]
+categories = ["development-tools", "rust-patterns"]
+
+[dependencies]
+use-cargo = { version = "0.1.0", path = "../use-cargo" }
+use-crate = { version = "0.1.0", path = "../use-crate" }
+use-version = { version = "0.1.0", path = "../use-version" }
+use-release = { version = "0.1.0", path = "../use-release" }

@@ -1,0 +1,29 @@
+[workspace]
+members = [
+	"crates/use-rust",
+	"crates/use-cargo",
+	"crates/use-crate",
+	"crates/use-version",
+	"crates/use-release",
+]
+resolver = "2"
+
+[workspace.package]
+authors = ["RustUse Contributors"]
+edition = "2021"
+homepage = "https://rustuse.org"
+license = "MIT OR Apache-2.0"
+repository = "https://github.com/RustUse/use-rust"
+rust-version = "1.95.0"
+version = "0.1.0"
+
+[workspace.dependencies]
+camino = { version = "1.1", features = ["serde1"] }
+cargo_metadata = "0.19"
+semver = { version = "1", features = ["serde"] }
+serde = { version = "1", features = ["derive"] }
+toml_edit = "0.22"
+
+[workspace.metadata.rustuse.release]
+publish = false
+versioning = "lockstep-0.x"
