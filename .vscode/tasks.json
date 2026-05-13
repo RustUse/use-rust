@@ -5,72 +5,106 @@
             "label": "cargo: fmt (check)",
             "type": "shell",
             "command": "cargo",
-            "args": ["xfmt"],
+            "args": [
+                "xfmt"
+            ],
             "problemMatcher": []
         },
         {
             "label": "cargo: check workspace",
             "type": "shell",
             "command": "cargo",
-            "args": ["xcheck"],
+            "args": [
+                "xcheck"
+            ],
             "group": "build",
-            "problemMatcher": ["$rustc"]
+            "problemMatcher": [
+                "$rustc"
+            ]
         },
         {
             "label": "cargo: examples",
             "type": "shell",
             "command": "cargo",
-            "args": ["xexamples"],
-            "problemMatcher": ["$rustc"]
+            "args": [
+                "xexamples"
+            ],
+            "problemMatcher": [
+                "$rustc"
+            ]
         },
         {
             "label": "cargo: clippy",
             "type": "shell",
             "command": "cargo",
-            "args": ["xlint"],
-            "problemMatcher": ["$rustc"]
+            "args": [
+                "xlint"
+            ],
+            "problemMatcher": [
+                "$rustc"
+            ]
         },
         {
             "label": "cargo: test all-features",
             "type": "shell",
             "command": "cargo",
-            "args": ["xtest"],
+            "args": [
+                "xtest"
+            ],
             "group": "test",
-            "problemMatcher": ["$rustc"]
+            "problemMatcher": [
+                "$rustc"
+            ]
         },
         {
             "label": "cargo: test no-default-features",
             "type": "shell",
             "command": "cargo",
-            "args": ["xtest-minimal"],
-            "problemMatcher": ["$rustc"]
+            "args": [
+                "xtest-minimal"
+            ],
+            "problemMatcher": [
+                "$rustc"
+            ]
         },
         {
             "label": "cargo: build workspace",
             "type": "shell",
             "command": "cargo",
-            "args": ["xbuild"],
-            "problemMatcher": ["$rustc"]
+            "args": [
+                "xbuild"
+            ],
+            "problemMatcher": [
+                "$rustc"
+            ]
         },
         {
             "label": "cargo: doc",
             "type": "shell",
             "command": "cargo",
-            "args": ["xdoc"],
-            "problemMatcher": ["$rustc"]
+            "args": [
+                "xdoc"
+            ],
+            "problemMatcher": [
+                "$rustc"
+            ]
         },
         {
             "label": "cargo: deny",
             "type": "shell",
             "command": "cargo",
-            "args": ["xdeny"],
+            "args": [
+                "xdeny"
+            ],
             "problemMatcher": []
         },
         {
             "label": "cargo: audit",
             "type": "shell",
             "command": "cargo",
-            "args": ["xaudit"],
+            "args": [
+                "xaudit"
+            ],
             "problemMatcher": []
         },
         {
@@ -97,7 +131,13 @@
             "label": "cargo: facade publish dry-run (post-publication)",
             "type": "shell",
             "command": "cargo",
-            "args": ["publish", "--dry-run", "--allow-dirty", "-p", "use-rust"],
+            "args": [
+                "publish",
+                "--dry-run",
+                "--allow-dirty",
+                "-p",
+                "use-rust"
+            ],
             "problemMatcher": []
         },
         {
