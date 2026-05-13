@@ -10,13 +10,13 @@ use std::{
 };
 
 use serde::{Deserialize, Serialize};
-use use_cargo::{find_workspace_root, load_manifest, CargoManifest, CargoManifestError};
+use use_cargo::{CargoManifest, CargoManifestError, find_workspace_root, load_manifest};
 use use_crate::{
-    expected_docs_url, expected_repository_url, is_use_prefixed, is_valid_crate_name, CrateMetadata,
+    CrateMetadata, expected_docs_url, expected_repository_url, is_use_prefixed, is_valid_crate_name,
 };
 use use_version::{
-    next_major, next_minor, next_patch, parse_version, ReleaseLevel, Version, VersionBump,
-    VersionError,
+    ReleaseLevel, Version, VersionBump, VersionError, next_major, next_minor, next_patch,
+    parse_version,
 };
 
 /// A single release-readiness check.
@@ -174,7 +174,7 @@ impl fmt::Display for ReleaseError {
             Self::Manifest(error) => write!(formatter, "failed to inspect Cargo manifest: {error}"),
             Self::Version(error) => {
                 write!(formatter, "failed to inspect version metadata: {error}")
-            }
+            },
         }
     }
 }
@@ -254,7 +254,7 @@ fn append_manifest_issues(
                     "package.version is not valid semantic versioning",
                 ));
             }
-        }
+        },
         None => issues.push(issue(
             ReleaseCheck::VersionValid,
             "package.version is missing",
@@ -306,12 +306,14 @@ fn append_manifest_issues(
                 }
             }
 
-            if let Some(metadata) = CrateMetadata::from_manifest(manifest) {
+            if let Some(metadata) =
+                CrateMetadata::from_manifest_path(manifest.path().as_path().as_std_path())
+            {
                 for message in use_crate::validate_crate_metadata(&metadata) {
                     issues.push(issue(ReleaseCheck::RustUseNaming, &message));
                 }
             }
-        }
+        },
         None => issues.push(issue(
             ReleaseCheck::CrateNameValid,
             "package.name is missing",
@@ -359,7 +361,7 @@ mod tests {
         time::{SystemTime, UNIX_EPOCH},
     };
 
-    use use_version::{parse_version, VersionBump};
+    use use_version::{VersionBump, parse_version};
 
     use super::{ReleasePlan, ReleaseReport, ReleaseStatus};
 

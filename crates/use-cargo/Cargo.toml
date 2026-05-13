@@ -1,6 +1,7 @@
 [package]
 name = "use-cargo"
 description = "Composable Cargo project and workspace primitives for RustUse."
+publish = false
 authors.workspace = true
 version.workspace = true
 edition.workspace = true

@@ -1,6 +1,7 @@
 [package]
 name = "use-crate"
 description = "Composable crate identity and metadata primitives for RustUse."
+publish = true
 authors.workspace = true
 version.workspace = true
 edition.workspace = true
@@ -15,4 +16,4 @@ categories = ["development-tools", "data-structures"]
 
 [dependencies]
 serde.workspace = true
-use-cargo = { version = "0.1.0", path = "../use-cargo" }
+toml_edit.workspace = true

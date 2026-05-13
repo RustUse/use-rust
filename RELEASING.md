@@ -1,48 +1,38 @@
 # Releasing
 
-This workspace supports manual, safety-first publish flows. It does not publish automatically on normal pushes.
+This repository uses a specialized first-wave release flow rather than the
+single-crate manual publish pattern used by some other RustUse repos.
 
-## crates.io token setup
+## Current release state
 
-1. Create or reuse a crates.io API token with publish access for the intended crates.
-2. Add the token to the GitHub repository secrets as `CARGO_REGISTRY_TOKEN`.
-3. Do not print the token in logs or local shell history.
+`use-rust` is intentionally split into:
 
-## GitHub Actions secret
+- first-wave publishable crates: `use-version`, `use-crate`, and `use-rust`
+- deferred crates that remain in-repo but unpublished: `use-cargo` and
+  `use-release`
 
-- Secret name: `CARGO_REGISTRY_TOKEN`
+## Canonical release guide
 
-## Dry-run publish
+Use [RELEASE.md](RELEASE.md) as the authoritative release policy for:
 
-Use the `Publish` workflow with:
+- first-wave publish scope
+- publish readiness checks
+- trusted publishing setup after the first public wave
+- maintainer release checklist
 
-- `crate = all` or one specific workspace crate
-- `dry_run = true`
+For the maintainer-facing day-to-day flow, also use
+`docs/maintainer-release-flow.md`.
 
-This is the default mode and is the safest way to validate publish packaging before a real release.
+## Current automation
 
-## Manual publish
+The repository already includes the specialized workflows that match this
+release shape:
 
-Use the `Publish` workflow with:
+- `publish-readiness.yml`
+- `facade-publish-readiness.yml`
+- `release-plz-pr.yml`
+- `release-plz-release.yml`
 
-- `crate = all` to publish the full workspace in dependency order, or one specific crate
-- `dry_run = false`
-
-The workflow will run formatting, linting, tests, and `cargo check` before it attempts any publish step.
-
-## Local dry-run example
-
-```sh
-cargo publish -p use-cargo --dry-run
-```
-
-## Semver notes
-
-- Patch bumps are for compatible fixes and small additive maintenance changes.
-- Minor bumps are for additive API changes during `0.x` development.
-- Major bumps are for stable-line breaking changes after `1.0.0`.
-- Pre-release identifiers should remain intentional and explicit.
-
-## Permanent version warning
-
-Published crates.io versions are permanent. You cannot replace an already published version with new contents, so verify the crate list, metadata, and changelog inputs before any real publish.
+This file exists to keep the top-level release entrypoint consistent with the
+other RustUse repositories while preserving the more detailed custom guidance
+in `RELEASE.md`.

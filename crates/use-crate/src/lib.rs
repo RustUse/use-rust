@@ -3,10 +3,14 @@
 
 //! Crate identity, naming, and publishability primitives.
 
-use std::{error::Error, fmt};
+use std::{
+    error::Error,
+    fmt, fs,
+    path::{Path, PathBuf},
+};
 
 use serde::{Deserialize, Serialize};
-use use_cargo::CargoManifest;
+use toml_edit::{DocumentMut, Item};
 
 /// A validated crate name.
 #[derive(Clone, Debug, PartialEq, Eq, Hash, Serialize, Deserialize)]
@@ -115,11 +119,19 @@ pub struct CrateMetadata {
 }
 
 impl CrateMetadata {
-    /// Builds crate metadata from a parsed Cargo manifest.
+    /// Builds crate metadata from a Cargo.toml manifest path or package root.
     #[must_use]
-    pub fn from_manifest(manifest: &CargoManifest) -> Option<Self> {
-        let name = CrateName::new(manifest.package_name()?).ok()?;
-        let crate_root = manifest.path().as_path().parent()?;
+    pub fn from_manifest_path(path: impl AsRef<Path>) -> Option<Self> {
+        let manifest_path = resolve_manifest_path(path.as_ref());
+        let contents = fs::read_to_string(&manifest_path).ok()?;
+        let document = contents.parse::<DocumentMut>().ok()?;
+
+        Self::from_manifest_document(&manifest_path, &document)
+    }
+
+    fn from_manifest_document(manifest_path: &Path, document: &DocumentMut) -> Option<Self> {
+        let name = CrateName::new(package_str(document, "name")?).ok()?;
+        let crate_root = manifest_path.parent()?;
         let has_lib = crate_root.join("src/lib.rs").exists();
         let has_main = crate_root.join("src/main.rs").exists();
 
@@ -133,12 +145,12 @@ impl CrateMetadata {
         Some(Self {
             name,
             kind,
-            description: manifest.description().map(ToOwned::to_owned),
-            license: manifest.license().map(ToOwned::to_owned),
-            repository: manifest.repository().map(RepositoryUrl::new),
-            documentation: manifest.documentation().map(DocumentationUrl::new),
-            homepage: manifest.homepage().map(ToOwned::to_owned),
-            publish_status: if manifest.is_publishable() {
+            description: package_str(document, "description").map(ToOwned::to_owned),
+            license: package_str(document, "license").map(ToOwned::to_owned),
+            repository: package_str(document, "repository").map(RepositoryUrl::new),
+            documentation: package_str(document, "documentation").map(DocumentationUrl::new),
+            homepage: package_str(document, "homepage").map(ToOwned::to_owned),
+            publish_status: if manifest_is_publishable(document) {
                 PublishStatus::Publishable
             } else {
                 PublishStatus::Unpublishable
@@ -158,6 +170,42 @@ impl fmt::Display for CrateNameError {
 }
 
 impl Error for CrateNameError {}
+
+fn resolve_manifest_path(path: &Path) -> PathBuf {
+    if path.is_dir() {
+        path.join("Cargo.toml")
+    } else {
+        path.to_path_buf()
+    }
+}
+
+fn package_item<'a>(document: &'a DocumentMut, field: &str) -> Option<&'a Item> {
+    document
+        .get("package")
+        .and_then(Item::as_table_like)
+        .and_then(|package| package.get(field))
+}
+
+fn package_str<'a>(document: &'a DocumentMut, field: &str) -> Option<&'a str> {
+    package_item(document, field)
+        .and_then(Item::as_value)
+        .and_then(|value| value.as_str())
+}
+
+fn manifest_is_publishable(document: &DocumentMut) -> bool {
+    match package_item(document, "publish") {
+        None => true,
+        Some(item) => item
+            .as_value()
+            .and_then(|value| value.as_bool())
+            .or_else(|| {
+                item.as_value()
+                    .and_then(|value| value.as_array())
+                    .map(|items| !items.is_empty())
+            })
+            .unwrap_or(true),
+    }
+}
 
 /// Returns `true` when a value is a valid crate name under RustUse defaults.
 #[must_use]
@@ -308,12 +356,10 @@ mod tests {
         time::{SystemTime, UNIX_EPOCH},
     };
 
-    use use_cargo::CargoManifest;
-
     use super::{
-        crate_name_to_module_name, expected_docs_url, expected_repository_url, is_publishable,
-        is_use_prefixed, is_valid_crate_name, module_name_to_crate_name, normalize_crate_name,
-        validate_crate_metadata, CrateMetadata, CrateName,
+        CrateMetadata, CrateName, crate_name_to_module_name, expected_docs_url,
+        expected_repository_url, is_publishable, is_use_prefixed, is_valid_crate_name,
+        module_name_to_crate_name, normalize_crate_name, validate_crate_metadata,
     };
 
     #[test]
@@ -366,7 +412,7 @@ mod tests {
     }
 
     #[test]
-    fn builds_metadata_from_manifest() {
+    fn builds_metadata_from_manifest_path() {
         let temp_dir = TestDir::new("crate-manifest");
         write_file(
             &temp_dir.path().join("Cargo.toml"),
@@ -386,8 +432,8 @@ homepage = "https://rustuse.org"
             "pub fn sample() {}\n",
         );
 
-        let manifest = CargoManifest::read(temp_dir.path()).expect("manifest should parse");
-        let metadata = CrateMetadata::from_manifest(&manifest).expect("metadata should load");
+        let metadata =
+            CrateMetadata::from_manifest_path(temp_dir.path()).expect("metadata should load");
 
         assert_eq!(metadata.name.as_str(), "use-release");
         assert_eq!(metadata.kind, super::CrateKind::Library);

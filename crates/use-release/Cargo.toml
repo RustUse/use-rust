@@ -1,6 +1,7 @@
 [package]
 name = "use-release"
 description = "Composable release-readiness primitives for RustUse."
+publish = false
 authors.workspace = true
 version.workspace = true
 edition.workspace = true

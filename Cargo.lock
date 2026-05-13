@@ -215,7 +215,7 @@ name = "use-crate"
 version = "0.1.0"
 dependencies = [
  "serde",
- "use-cargo",
+ "toml_edit",
 ]
 
 [[package]]
@@ -232,9 +232,7 @@ dependencies = [
 name = "use-rust"
 version = "0.1.0"
 dependencies = [
- "use-cargo",
  "use-crate",
- "use-release",
  "use-version",
 ]
 
