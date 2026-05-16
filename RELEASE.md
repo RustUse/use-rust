@@ -12,8 +12,10 @@ The initial crates.io surface for this repository is intentionally limited to:
 
 The deferred crates remain in-repo but opt out of the first public wave:
 
-- `use-cargo` stays unpublished because crates.io normalizes hyphens and
-  underscores into the same namespace and `use_cargo` already exists.
+- `use-cargo` stays unpublished under the current local package identity
+  because crates.io resolves the normalized package name to the canonical crate
+  `use_cargo`, so Cargo cannot resolve `use-cargo` from the registry during
+  dependent package verification.
 - `use-release` stays unpublished because it still depends on `use-cargo`.
 
 ## First Publish Wave
@@ -126,9 +128,9 @@ For the initial public crates.io wave:
 
 1. Do not use `Release Publish Automation` yet.
 2. Run the full release-readiness path and publish `use-version` and
-   `use-crate` before `use-rust`.
+  `use-crate` before `use-rust`.
 3. Treat `.github/workflows/facade-publish-readiness.yml` as the final facade
-   check once the focused crates resolve from crates.io.
+  check once the focused crates resolve from crates.io.
 
 ## Publish Readiness Checklist
 

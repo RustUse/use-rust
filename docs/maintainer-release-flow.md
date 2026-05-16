@@ -24,8 +24,10 @@ It covers two different paths:
 
 The current first public wave intentionally excludes two in-repo crates:
 
-- `use-cargo` is deferred because crates.io treats `use-cargo` and
-  `use_cargo` as the same package namespace, and `use_cargo` already exists.
+- `use-cargo` is deferred because crates.io resolves the normalized package
+  name to the canonical registry crate `use_cargo`, so Cargo cannot resolve the
+  current local package identity `use-cargo` during dependent package
+  verification.
 - `use-release` is deferred because it still depends on `use-cargo`.
 
 Do not add either deferred crate back into the publish surface without an
@@ -110,12 +112,12 @@ Do not use `Release Publish Automation` for the first public crates.io wave.
 Use the manual dependency-ordered publish path instead:
 
 1. Confirm `use-version`, `use-crate`, and `use-rust` are still the intended
-   first-wave publishable crates.
+  first-wave publishable crates.
 2. Run the full publish-readiness checks.
 3. Publish `use-version` and `use-crate`.
 4. Wait for crates.io index propagation.
 5. Run `cargo publish --dry-run -p use-rust` or the manual
-   `Facade Publish Readiness` workflow.
+  `Facade Publish Readiness` workflow.
 6. Publish `use-rust`.
 
 After that first wave is complete, the guarded auto-publish path can take over
