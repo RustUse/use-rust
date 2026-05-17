@@ -1,10 +1,10 @@
 [workspace]
 members = [
 	"crates/use-rust",
-	"crates/use-cargo",
+	"crates/use-rust-cargo",
 	"crates/use-crate",
 	"crates/use-version",
-	"crates/use-release",
+	"crates/use-rust-release",
 ]
 resolver = "2"
 
@@ -33,4 +33,6 @@ first-publish-candidates = [
 	"use-version",
 	"use-crate",
 	"use-rust",
+	"use-rust-cargo",
+	"use-rust-release",
 ]

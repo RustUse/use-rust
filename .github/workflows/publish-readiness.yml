@@ -17,7 +17,7 @@ jobs:
         name: Release Readiness Checks
         runs-on: ubuntu-latest
         env:
-            FOCUSED_CRATES: "use-version use-crate"
+      FOCUSED_CRATES: "use-version use-crate use-rust-cargo"
         steps:
             - name: Check out repository
               uses: actions/checkout@v4

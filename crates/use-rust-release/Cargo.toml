@@ -1,7 +1,7 @@
 [package]
-name = "use-release"
+name = "use-rust-release"
 description = "Composable release-readiness primitives for RustUse."
-publish = false
+publish = true
 authors.workspace = true
 version.workspace = true
 edition.workspace = true
@@ -10,12 +10,12 @@ repository.workspace = true
 homepage.workspace = true
 rust-version.workspace = true
 readme = "README.md"
-documentation = "https://docs.rs/use-release"
+documentation = "https://docs.rs/use-rust-release"
 keywords = ["rustuse", "release", "publish", "checks"]
 categories = ["development-tools", "filesystem"]
 
 [dependencies]
 serde.workspace = true
-use-cargo = { version = "0.1.0", path = "../use-cargo" }
+use-rust-cargo = { version = "0.1.0", path = "../use-rust-cargo" }
 use-crate = { version = "0.1.0", path = "../use-crate" }
 use-version = { version = "0.1.0", path = "../use-version" }

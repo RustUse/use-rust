@@ -201,7 +201,23 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "e6e4313cd5fcd3dad5cafa179702e2b244f760991f45397d14d4ebf38247da75"
 
 [[package]]
-name = "use-cargo"
+name = "use-crate"
+version = "0.1.0"
+dependencies = [
+ "serde",
+ "toml_edit",
+]
+
+[[package]]
+name = "use-rust"
+version = "0.1.0"
+dependencies = [
+ "use-crate",
+ "use-version",
+]
+
+[[package]]
+name = "use-rust-cargo"
 version = "0.1.0"
 dependencies = [
  "camino",
@@ -211,28 +227,12 @@ dependencies = [
 ]
 
 [[package]]
-name = "use-crate"
+name = "use-rust-release"
 version = "0.1.0"
 dependencies = [
  "serde",
- "toml_edit",
-]
-
-[[package]]
-name = "use-release"
-version = "0.1.0"
-dependencies = [
- "serde",
- "use-cargo",
  "use-crate",
- "use-version",
-]
-
-[[package]]
-name = "use-rust"
-version = "0.1.0"
-dependencies = [
- "use-crate",
+ "use-rust-cargo",
  "use-version",
 ]
 

@@ -6,17 +6,17 @@ Composable Rust ecosystem primitives for RustUse.
 
 This repository is not a CLI app and not a publish automation tool. It is the reusable primitives layer that can later power RustUse release tooling across `use-*` repositories.
 
-The current first public crates.io wave is intentionally smaller than the full in-repo workspace. It publishes `use-version`, `use-crate`, and the `use-rust` facade first, while keeping the deferred `use-cargo` and `use-release` crates in the repository for follow-up work.
+The published core crates.io wave is intentionally smaller than the full in-repo workspace. `use-version`, `use-crate`, and the `use-rust` facade are already part of the public surface, and the renamed follow-up crates `use-rust-cargo` and `use-rust-release` now opt into publishing as a second manual stage.
 
 ## Workspace crates
 
-| Crate         | Purpose                                             | First-wave crates.io status |
-| ------------- | --------------------------------------------------- | --------------------------- |
-| `use-rust`    | Thin umbrella crate for the publishable core crates | publish                     |
-| `use-crate`   | Crate identity, naming, and metadata primitives     | publish                     |
-| `use-version` | Semver and version policy primitives                | publish                     |
-| `use-cargo`   | Cargo project and workspace primitives              | defer                       |
-| `use-release` | Release-readiness reporting primitives              | defer                       |
+| Crate         | Purpose                                             | Current crates.io status            |
+| ------------- | --------------------------------------------------- | ----------------------------------- |
+| `use-rust`    | Thin umbrella crate for the publishable core crates | published                           |
+| `use-crate`   | Crate identity, naming, and metadata primitives     | published                           |
+| `use-version` | Semver and version policy primitives                | published                           |
+| `use-rust-cargo` | Cargo project and workspace primitives           | publishable follow-up crate         |
+| `use-rust-release` | Release-readiness reporting primitives         | publishable after `use-rust-cargo`  |
 
 ## Installation
 
@@ -27,7 +27,7 @@ Install the umbrella crate when you want the common RustUse surface:
 use-rust = "0.1.0"
 ```
 
-Or install the focused first-wave crates directly:
+Or install the already-published focused crates directly:
 
 ```toml
 [dependencies]
@@ -35,11 +35,11 @@ use-crate = "0.1.0"
 use-version = "0.1.0"
 ```
 
-## Deferred crates
+## Follow-up publishable crates
 
-`use-cargo` is currently deferred because crates.io normalizes hyphens and underscores into the same namespace and `use_cargo` already exists.
+`use-rust-cargo` is the renamed successor to the earlier `use-cargo` identity, avoiding the crates.io namespace collision with the canonical crate `use_cargo`. Its local `cargo publish --dry-run` path now passes.
 
-`use-release` is currently deferred because it still depends on `use-cargo`.
+`use-rust-release` is now publishable too, but its dry-run remains intentionally staged after `use-rust-cargo` because Cargo resolves the exact sibling dependency from crates.io during package verification.
 
 ## Basic usage
 

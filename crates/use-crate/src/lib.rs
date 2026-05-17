@@ -235,13 +235,13 @@ pub fn is_use_prefixed(value: &str) -> bool {
     value.starts_with("use-")
 }
 
-/// Converts a crate name like `use-release` into a Rust module name.
+/// Converts a crate name like `use-rust-release` into a Rust module name.
 #[must_use]
 pub fn crate_name_to_module_name(value: &str) -> String {
     value.replace('-', "_")
 }
 
-/// Converts a Rust module name like `use_release` into a crate name.
+/// Converts a Rust module name like `use_rust_release` into a crate name.
 #[must_use]
 pub fn module_name_to_crate_name(value: &str) -> String {
     value.replace('_', "-")
@@ -364,45 +364,51 @@ mod tests {
 
     #[test]
     fn validates_crate_names_and_prefixes() {
-        assert!(is_valid_crate_name("use-release"));
-        assert!(is_valid_crate_name("use_release"));
-        assert!(!is_valid_crate_name("Use-Release"));
+        assert!(is_valid_crate_name("use-rust-release"));
+        assert!(is_valid_crate_name("use_rust_release"));
+        assert!(!is_valid_crate_name("Use-Rust-Release"));
         assert!(!is_valid_crate_name("use release"));
-        assert!(is_use_prefixed("use-release"));
+        assert!(is_use_prefixed("use-rust-release"));
         assert!(!is_use_prefixed("release-tools"));
     }
 
     #[test]
     fn converts_and_normalizes_names() {
-        assert_eq!(crate_name_to_module_name("use-release"), "use_release");
-        assert_eq!(module_name_to_crate_name("use_release"), "use-release");
         assert_eq!(
-            normalize_crate_name(" Use Release_tools "),
-            "use-release-tools"
+            crate_name_to_module_name("use-rust-release"),
+            "use_rust_release"
+        );
+        assert_eq!(
+            module_name_to_crate_name("use_rust_release"),
+            "use-rust-release"
+        );
+        assert_eq!(
+            normalize_crate_name(" Use Rust Release_tools "),
+            "use-rust-release-tools"
         );
     }
 
     #[test]
     fn builds_expected_urls() {
         assert_eq!(
-            expected_repository_url("use-release").as_str(),
-            "https://github.com/RustUse/use-release"
+            expected_repository_url("use-rust-release").as_str(),
+            "https://github.com/RustUse/use-rust-release"
         );
         assert_eq!(
-            expected_docs_url("use-release").as_str(),
-            "https://docs.rs/use-release"
+            expected_docs_url("use-rust-release").as_str(),
+            "https://docs.rs/use-rust-release"
         );
     }
 
     #[test]
     fn validates_metadata_defaults() {
         let metadata = CrateMetadata {
-            name: CrateName::new("use-release").expect("crate name should validate"),
+            name: CrateName::new("use-rust-release").expect("crate name should validate"),
             kind: super::CrateKind::Library,
             description: Some(String::from("release checks")),
             license: Some(String::from("MIT OR Apache-2.0")),
-            repository: Some(expected_repository_url("use-release")),
-            documentation: Some(expected_docs_url("use-release")),
+            repository: Some(expected_repository_url("use-rust-release")),
+            documentation: Some(expected_docs_url("use-rust-release")),
             homepage: Some(String::from("https://rustuse.org")),
             publish_status: super::PublishStatus::Publishable,
         };
@@ -417,13 +423,13 @@ mod tests {
         write_file(
             &temp_dir.path().join("Cargo.toml"),
             r#"[package]
-name = "use-release"
+    name = "use-rust-release"
 version = "0.0.1"
 edition = "2024"
 description = "release checks"
 license = "MIT OR Apache-2.0"
-repository = "https://github.com/RustUse/use-release"
-documentation = "https://docs.rs/use-release"
+    repository = "https://github.com/RustUse/use-rust-release"
+    documentation = "https://docs.rs/use-rust-release"
 homepage = "https://rustuse.org"
 "#,
         );
@@ -435,7 +441,7 @@ homepage = "https://rustuse.org"
         let metadata =
             CrateMetadata::from_manifest_path(temp_dir.path()).expect("metadata should load");
 
-        assert_eq!(metadata.name.as_str(), "use-release");
+        assert_eq!(metadata.name.as_str(), "use-rust-release");
         assert_eq!(metadata.kind, super::CrateKind::Library);
     }
 

@@ -1,7 +1,7 @@
 [package]
-name = "use-cargo"
+name = "use-rust-cargo"
 description = "Composable Cargo project and workspace primitives for RustUse."
-publish = false
+publish = true
 authors.workspace = true
 version.workspace = true
 edition.workspace = true
@@ -10,7 +10,7 @@ repository.workspace = true
 homepage.workspace = true
 rust-version.workspace = true
 readme = "README.md"
-documentation = "https://docs.rs/use-cargo"
+documentation = "https://docs.rs/use-rust-cargo"
 keywords = ["rustuse", "cargo", "workspace", "manifest"]
 categories = ["development-tools", "config"]
 

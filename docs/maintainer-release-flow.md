@@ -20,18 +20,18 @@ It covers two different paths:
   initial manual publish wave is complete and the repository enables the
   guarded auto-publish path.
 
-## Deferred crates
+## Follow-up publishable crates
 
-The current first public wave intentionally excludes two in-repo crates:
+The repository now has two additional publishable crates that still follow a
+manual first-release order:
 
-- `use-cargo` is deferred because crates.io resolves the normalized package
-  name to the canonical registry crate `use_cargo`, so Cargo cannot resolve the
-  current local package identity `use-cargo` during dependent package
-  verification.
-- `use-release` is deferred because it still depends on `use-cargo`.
+- `use-rust-cargo` is the renamed local successor to the earlier `use-cargo`
+  identity, avoiding the crates.io normalized-name collision with the canonical
+  registry crate `use_cargo`.
+- `use-rust-release` is now publishable too, but only after the matching
+  `use-rust-cargo` version is visible on crates.io.
 
-Do not add either deferred crate back into the publish surface without an
-explicit maintainer decision and a follow-up release-model update.
+Keep the first publish of `use-rust-release` manual and dependency-ordered.
 
 ## One-time post-initial-release setup
 
@@ -78,7 +78,7 @@ notes.
 
 - `feat: add crate metadata parser`
 - `fix: preserve explicit publish false in manifest parsing`
-- `docs: clarify deferred crate publish policy`
+- `docs: clarify follow-up crate publish policy`
 - `refactor: simplify facade re-export surface`
 - `build: add guarded release-plz workflows`
 - `security: harden publish workflow gating`
@@ -119,6 +119,11 @@ Use the manual dependency-ordered publish path instead:
 5. Run `cargo publish --dry-run -p use-rust` or the manual
   `Facade Publish Readiness` workflow.
 6. Publish `use-rust`.
+7. Publish `use-rust-cargo` once the renamed crate is ready for its first live
+   crates.io release.
+8. Wait for crates.io index propagation for `use-rust-cargo`, then run
+   `cargo publish --dry-run --allow-dirty -p use-rust-release`.
+9. Publish `use-rust-release`.
 
 After that first wave is complete, the guarded auto-publish path can take over
 for subsequent releases.

@@ -5,11 +5,14 @@ single-crate manual publish pattern used by some other RustUse repos.
 
 ## Current release state
 
-`use-rust` is intentionally split into:
+`use-rust` is intentionally split into two public stages:
 
-- first-wave publishable crates: `use-version`, `use-crate`, and `use-rust`
-- deferred crates that remain in-repo but unpublished: `use-cargo` and
-  `use-release`
+- already-published core crates: `use-version`, `use-crate`, and `use-rust`
+- follow-up publishable crates: `use-rust-cargo` and `use-rust-release`
+
+`use-rust-release` remains dependency-ordered behind `use-rust-cargo`, so its
+first dry-run and first real publish still happen only after the matching
+`use-rust-cargo` version resolves from crates.io.
 
 ## Canonical release guide
 

@@ -4,19 +4,19 @@ RustUse/use-rust is not published yet. The root workspace metadata keeps
 `publish = false` as the default, while the current first-wave crate manifests
 opt in with `publish = true` on this branch.
 
-The initial crates.io surface for this repository is intentionally limited to:
+The initial crates.io surface for this repository was intentionally limited to:
 
 - `use-version`
 - `use-crate`
 - `use-rust`
 
-The deferred crates remain in-repo but opt out of the first public wave:
+The follow-up publishable crates now opt in as a second manual stage:
 
-- `use-cargo` stays unpublished under the current local package identity
-  because crates.io resolves the normalized package name to the canonical crate
-  `use_cargo`, so Cargo cannot resolve `use-cargo` from the registry during
-  dependent package verification.
-- `use-release` stays unpublished because it still depends on `use-cargo`.
+- `use-rust-cargo` now publishes under the collision-free package identity
+  `use-rust-cargo`.
+- `use-rust-release` now publishes too, but its first dry-run and first publish
+  stay ordered after `use-rust-cargo` because Cargo verifies the exact sibling
+  dependency version against crates.io during packaging.
 
 ## First Publish Wave
 
@@ -34,8 +34,10 @@ Before the first publish wave, confirm that the release surface:
 - keeps the workspace-level default at `publish = false`
 - keeps `crates/use-version/Cargo.toml`, `crates/use-crate/Cargo.toml`, and
   `crates/use-rust/Cargo.toml` at `publish = true`
-- keeps `crates/use-cargo/Cargo.toml` and `crates/use-release/Cargo.toml` at
-  `publish = false` until the deferred crates are intentionally reviewed again
+- keeps `crates/use-rust-cargo/Cargo.toml` and
+  `crates/use-rust-release/Cargo.toml` at `publish = true`
+- preserves the dependency order where `use-rust-release` is only dry-run or
+  published after the matching `use-rust-cargo` version is visible on crates.io
 
 ## Versioning
 
@@ -142,12 +144,16 @@ For the initial public crates.io wave:
 6. Confirm `cargo clippy --workspace --all-targets --all-features` passes.
 7. Review README examples, crate metadata, repository health files,
    `Cargo.lock`, and changelog entries.
-8. Confirm `use-version`, `use-crate`, and `use-rust` are the only
-   intentionally publishable crates.
-9. Confirm the focused-crate dry-run path passes across the first-wave set, for
-   example via `.github/workflows/publish-readiness.yml`.
+8. Confirm `use-version`, `use-crate`, `use-rust`, `use-rust-cargo`, and
+  `use-rust-release` are the intentionally publishable crates, with
+  `use-rust-release` staged behind `use-rust-cargo`.
+9. Confirm the independent focused-crate dry-run path passes across the crates
+  that do not require a fresh sibling dependency from crates.io, for example
+  via `.github/workflows/publish-readiness.yml`.
 10. Publish `use-version` and `use-crate`, then wait for crates.io index
-    resolution.
+   resolution. Publish `use-rust`, then publish `use-rust-cargo`, wait for its
+   crates.io index resolution, and only then dry-run and publish
+   `use-rust-release`.
 11. Confirm branch protection on `main` requires
     `Publish Readiness / Release Readiness Checks` before the first public
     release.

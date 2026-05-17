@@ -10,10 +10,10 @@ use std::{
 };
 
 use serde::{Deserialize, Serialize};
-use use_cargo::{CargoManifest, CargoManifestError, find_workspace_root, load_manifest};
 use use_crate::{
     CrateMetadata, expected_docs_url, expected_repository_url, is_use_prefixed, is_valid_crate_name,
 };
+use use_rust_cargo::{CargoManifest, CargoManifestError, find_workspace_root, load_manifest};
 use use_version::{
     ReleaseLevel, Version, VersionBump, VersionError, next_major, next_minor, next_patch,
     parse_version,
@@ -458,7 +458,10 @@ edition = "2021"
                 .duration_since(UNIX_EPOCH)
                 .expect("system clock should be after UNIX_EPOCH")
                 .as_nanos();
-            path.push(format!("use-release-{label}-{}-{nanos}", process::id()));
+            path.push(format!(
+                "use-rust-release-{label}-{}-{nanos}",
+                process::id()
+            ));
             fs::create_dir_all(&path).expect("temporary directory should be created");
             Self { path }
         }

@@ -369,7 +369,7 @@ impl fmt::Display for CargoManifestError {
             Self::NotFound(path) => write!(formatter, "no Cargo.toml found at {}", path.display()),
             Self::NonUtf8Path(path) => {
                 write!(formatter, "path is not valid UTF-8: {}", path.display())
-            }
+            },
             Self::ParseToml(error) => write!(formatter, "failed to parse Cargo manifest: {error}"),
         }
     }
@@ -413,10 +413,10 @@ impl fmt::Display for CargoWorkspaceError {
             Self::Metadata(error) => write!(formatter, "failed to query cargo metadata: {error}"),
             Self::NonUtf8Path(path) => {
                 write!(formatter, "path is not valid UTF-8: {}", path.display())
-            }
+            },
             Self::NotFound(path) => {
                 write!(formatter, "no workspace root found from {}", path.display())
-            }
+            },
         }
     }
 }
@@ -592,8 +592,8 @@ mod tests {
     };
 
     use super::{
-        find_manifest, find_workspace_root, package_names, publishable_packages, workspace_members,
-        CargoEdition, CargoManifest, CargoWorkspace,
+        CargoEdition, CargoManifest, CargoWorkspace, find_manifest, find_workspace_root,
+        package_names, publishable_packages, workspace_members,
     };
 
     #[test]
@@ -750,7 +750,7 @@ publish = false
                 .duration_since(UNIX_EPOCH)
                 .expect("system clock should be after UNIX_EPOCH")
                 .as_nanos();
-            path.push(format!("use-cargo-{label}-{}-{nanos}", process::id()));
+            path.push(format!("use-rust-cargo-{label}-{}-{nanos}", process::id()));
             fs::create_dir_all(&path).expect("temporary directory should be created");
             Self { path }
         }
