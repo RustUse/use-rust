@@ -1,6 +1,6 @@
 name: Advisory Rust Quality
 
-on:
+"on":
     pull_request:
         branches:
             - main
@@ -31,16 +31,9 @@ jobs:
               run: cargo machete --with-metadata
 
     cargo-semver-checks:
-        name: Cargo SemVer Checks Advisory (${{ matrix.crate }})
+        name: Cargo SemVer Checks Advisory
         continue-on-error: true
         runs-on: ubuntu-latest
-        strategy:
-            fail-fast: false
-            matrix:
-                crate:
-                    - use-version
-                    - use-crate
-                    - use-rust
         steps:
             - name: Check out repository
               uses: actions/checkout@v4
@@ -57,7 +50,7 @@ jobs:
             - name: Compare public crate APIs against the PR base
               uses: obi1kenobi/cargo-semver-checks-action@v2
               with:
-                  manifest-path: crates/${{ matrix.crate }}/Cargo.toml
+                  manifest-path: Cargo.toml
                   baseline-rev: ${{ github.event.pull_request.base.sha }}
                   feature-group: all-features
                   rust-toolchain: manual

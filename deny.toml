@@ -15,6 +15,7 @@ ignore = []
 confidence-threshold = 0.93
 unused-allowed-license = "warn"
 
+# Allow only third-party licenses you accept globally.
 allow = [
 	"Apache-2.0",
 	"MIT",
@@ -25,6 +26,7 @@ allow = [
 ]
 
 [licenses.private]
+# Ignore license-expression checks for your unpublished private workspace crates.
 ignore = true
 
 [bans]

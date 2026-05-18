@@ -1,6 +1,6 @@
 name: Release Publish Automation
 
-on:
+"on":
     push:
         branches:
             - main
@@ -27,7 +27,7 @@ jobs:
         runs-on: ubuntu-latest
         env:
             PUBLISHED_CRATES: >-
-                use-version use-crate use-rust
+              use-version use-crate use-rust use-rust-cargo use-rust-release
         steps:
             - name: Check out repository
               uses: actions/checkout@v4

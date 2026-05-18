@@ -5,106 +5,83 @@
             "label": "cargo: fmt (check)",
             "type": "shell",
             "command": "cargo",
-            "args": [
-                "xfmt"
-            ],
+            "args": ["xfmt"],
             "problemMatcher": []
         },
         {
             "label": "cargo: check workspace",
             "type": "shell",
             "command": "cargo",
-            "args": [
-                "xcheck"
-            ],
+            "args": ["xcheck"],
             "group": "build",
-            "problemMatcher": [
-                "$rustc"
-            ]
+            "problemMatcher": ["$rustc"]
         },
         {
             "label": "cargo: examples",
             "type": "shell",
             "command": "cargo",
-            "args": [
-                "xexamples"
-            ],
-            "problemMatcher": [
-                "$rustc"
-            ]
+            "args": ["xexamples"],
+            "problemMatcher": ["$rustc"]
         },
         {
             "label": "cargo: clippy",
             "type": "shell",
             "command": "cargo",
-            "args": [
-                "xlint"
-            ],
-            "problemMatcher": [
-                "$rustc"
-            ]
+            "args": ["xlint"],
+            "problemMatcher": ["$rustc"]
         },
         {
             "label": "cargo: test all-features",
             "type": "shell",
             "command": "cargo",
-            "args": [
-                "xtest"
-            ],
+            "args": ["xtest"],
             "group": "test",
-            "problemMatcher": [
-                "$rustc"
-            ]
+            "problemMatcher": ["$rustc"]
         },
         {
             "label": "cargo: test no-default-features",
             "type": "shell",
             "command": "cargo",
-            "args": [
-                "xtest-minimal"
-            ],
-            "problemMatcher": [
-                "$rustc"
-            ]
+            "args": ["xtest-minimal"],
+            "problemMatcher": ["$rustc"]
         },
         {
             "label": "cargo: build workspace",
             "type": "shell",
             "command": "cargo",
-            "args": [
-                "xbuild"
-            ],
-            "problemMatcher": [
-                "$rustc"
-            ]
+            "args": ["xbuild"],
+            "problemMatcher": ["$rustc"]
         },
         {
             "label": "cargo: doc",
             "type": "shell",
             "command": "cargo",
-            "args": [
-                "xdoc"
-            ],
-            "problemMatcher": [
-                "$rustc"
-            ]
+            "args": ["xdoc"],
+            "problemMatcher": ["$rustc"]
         },
         {
             "label": "cargo: deny",
             "type": "shell",
             "command": "cargo",
-            "args": [
-                "xdeny"
-            ],
+            "args": ["xdeny"],
             "problemMatcher": []
         },
         {
             "label": "cargo: audit",
             "type": "shell",
             "command": "cargo",
-            "args": [
-                "xaudit"
-            ],
+            "args": ["xaudit"],
+            "problemMatcher": []
+        },
+        {
+            "label": "dev: bootstrap optional cargo tools",
+            "type": "shell",
+            "command": "bash",
+            "args": ["scripts/bootstrap-dev-tools.sh"],
+            "windows": {
+                "command": "powershell",
+                "args": ["-ExecutionPolicy", "Bypass", "-File", "scripts/bootstrap-dev-tools.ps1"]
+            },
             "problemMatcher": []
         },
         {
@@ -113,7 +90,7 @@
             "command": "bash",
             "args": [
                 "-lc",
-                "set -euo pipefail; for crate in use-version use-crate; do cargo package --list -p \"$crate\"; cargo publish --dry-run --allow-dirty -p \"$crate\"; done"
+                "crates=\"use-version use-crate use-rust-cargo use-rust-release\"; if [ -z \"$crates\" ]; then echo \"No focused crates configured\"; exit 0; fi; set -euo pipefail; for crate in $crates; do cargo package --list -p \"$crate\"; cargo publish --dry-run --allow-dirty -p \"$crate\"; done"
             ],
             "windows": {
                 "command": "powershell",
@@ -122,7 +99,7 @@
                     "-ExecutionPolicy",
                     "Bypass",
                     "-Command",
-                    "$ErrorActionPreference = 'Stop'; $crates = @('use-version','use-crate'); foreach ($crate in $crates) { cargo package --list -p $crate; if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }; cargo publish --dry-run --allow-dirty -p $crate; if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE } }"
+                    "$ErrorActionPreference = 'Stop'; $crates = @('use-version','use-crate','use-rust-cargo','use-rust-release'); foreach ($crate in $crates) { cargo package --list -p $crate; if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }; cargo publish --dry-run --allow-dirty -p $crate; if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE } }"
                 ]
             },
             "problemMatcher": []
@@ -131,13 +108,7 @@
             "label": "cargo: facade publish dry-run (post-publication)",
             "type": "shell",
             "command": "cargo",
-            "args": [
-                "publish",
-                "--dry-run",
-                "--allow-dirty",
-                "-p",
-                "use-rust"
-            ],
+            "args": ["publish", "--dry-run", "--allow-dirty", "-p", "use-rust"],
             "problemMatcher": []
         },
         {
