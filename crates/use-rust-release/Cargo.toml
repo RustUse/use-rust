@@ -17,5 +17,5 @@ categories = ["development-tools", "filesystem"]
 [dependencies]
 serde.workspace = true
 use-rust-cargo = { version = "0.1.0", path = "../use-rust-cargo" }
-use-crate = { version = "0.1.0", path = "../use-crate" }
-use-version = { version = "0.1.0", path = "../use-version" }
+use-crate = { version = "0.1.1", path = "../use-crate" }
+use-version = { version = "0.1.1", path = "../use-version" }

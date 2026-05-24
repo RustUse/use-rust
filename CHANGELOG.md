@@ -2,6 +2,13 @@
 
 ## Unreleased
 
+## [0.1.1](https://github.com/RustUse/use-rust/compare/use-rust-v0.1.0...use-rust-v0.1.1) - 2026-05-24
+
+### Changed
+
+- Rename deferred crates to use-rust-*
+- Add CI, release, and workspace publishing infra
+
 ### Added
 
 - Added a new multi-crate `use-rust` workspace with `use-rust-cargo`, `use-crate`, `use-version`, `use-rust-release`, and the thin umbrella `use-rust` crate.
