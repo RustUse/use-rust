@@ -15,5 +15,5 @@ keywords = ["rustuse", "rust", "crate", "version"]
 categories = ["development-tools", "rust-patterns"]
 
 [dependencies]
-use-crate = { version = "0.1.0", path = "../use-crate" }
-use-version = { version = "0.1.0", path = "../use-version" }
+use-crate = { version = "0.1.1", path = "../use-crate" }
+use-version = { version = "0.1.1", path = "../use-version" }
