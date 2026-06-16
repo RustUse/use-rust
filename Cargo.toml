@@ -24,7 +24,7 @@ camino = { version = "1.1", features = ["serde1"] }
 cargo_metadata = "0.19"
 semver = { version = "1", features = ["serde"] }
 serde = { version = "1", features = ["derive"] }
-toml_edit = "0.22"
+toml_edit = "0.25"
 
 [workspace.metadata.rustuse.release]
 publish = false
